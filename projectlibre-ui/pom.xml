@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.projectlibre</groupId>
+    <artifactId>projectlibre-ui</artifactId>
+    <packaging>jar</packaging>
+    <name>projectlibre-ui</name>
+
+    <parent>
+        <artifactId>projectlibre-parent</artifactId>
+        <groupId>com.projectlibre</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.projectlibre</groupId>
+            <artifactId>projectlibre-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.projectlibre</groupId>
+            <artifactId>projectlibre-exchange</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.projectlibre</groupId>
+            <artifactId>projectlibre-reports</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+            <version>1.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pushing-pixels</groupId>
+            <artifactId>trident</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.nachocalendar</groupId>
+            <artifactId>nachocalendar</artifactId>
+            <version>0.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdesktop</groupId>
+            <artifactId>jdnc</artifactId>
+            <version>0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.l2fprod</groupId>
+            <artifactId>l2fprod-common-all</artifactId>
+            <version>6.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>3.1.0</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>3.0.0-M4</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-install-plugin</artifactId>
+              <version>3.0.0-M1</version>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-shade-plugin</artifactId>
+              <version>${maven.shade}</version>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>shade</goal>
+                  </goals>
+                  <configuration>
+                    <transformers>
+                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>com.projectlibre1.main.Main</mainClass>
+                      </transformer>
+                    </transformers>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
