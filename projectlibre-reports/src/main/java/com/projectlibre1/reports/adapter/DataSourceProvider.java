@@ -294,11 +294,11 @@ public class DataSourceProvider implements JRDataSourceProvider {
 		if (fieldValue == null)
 			return null;
 		if (field.isRate()) {
-			return new Double(((Rate)fieldValue).getValue());
+			return ((Rate)fieldValue).getValue();
 		} else if(field.isMoney()) {
-			return new Double(((Money)fieldValue).doubleValue());
+			return ((Money)fieldValue).doubleValue();
 		} else if (field.isDurationOrWork()) {
-			return new Long (((Duration)fieldValue).longValue());
+			return ((Duration)fieldValue).longValue();
 		} else {
 			return fieldValue;
 		}
