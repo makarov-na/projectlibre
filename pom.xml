@@ -72,11 +72,13 @@
       <artifactId>groovy</artifactId>
       <version>1.5.8</version>
     </dependency>
+
     <dependency>
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports</artifactId>
-      <version>3.6.2</version>
+      <version>3.7.6</version>
     </dependency>
+
     <dependency>
       <groupId>org.beanshell</groupId>
       <artifactId>bsh</artifactId>
