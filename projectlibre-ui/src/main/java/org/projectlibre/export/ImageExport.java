@@ -164,7 +164,7 @@ public class ImageExport {
     		chooser.putClientProperty("FileChooser.useShellFolder", Boolean.FALSE);
     		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
     		chooser.addChoosableFileFilter(pdfFilter);
-    		//chooser.addChoosableFileFilter(pngFilter);
+    		chooser.addChoosableFileFilter(pngFilter);
     	}
 		if (projectName.length()==0)
 			projectName="project";
@@ -172,7 +172,7 @@ public class ImageExport {
 		chooser.setFileFilter(pdfFilter);
 		if (chooser.showDialog(parentComponent, null) == JFileChooser.APPROVE_OPTION){
 			File file=chooser.getSelectedFile();
-			if (!file.getName().endsWith(".pdf")/*&&!file.getName().endsWith(".png")*/) file=new File(file.getName()+".pdf"); //add pdf extension if missing
+			if (!file.getName().endsWith(".pdf")&&!file.getName().endsWith(".png")) file=new File(file.getName()+".pdf"); //add pdf extension if missing
 			return file;
 		} else return null;
     }
