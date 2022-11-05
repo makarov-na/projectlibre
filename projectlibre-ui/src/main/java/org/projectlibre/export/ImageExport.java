@@ -55,29 +55,28 @@
  *******************************************************************************/
 package org.projectlibre.export;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import com.itextpdf.awt.PdfGraphics2D;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.projectlibre1.job.Job;
+import com.projectlibre1.job.JobQueue;
+import com.projectlibre1.job.JobRunnable;
+import com.projectlibre1.pm.graphic.spreadsheet.renderer.FontManager;
+import com.projectlibre1.print.ExtendedPageFormat;
+import com.projectlibre1.print.GraphPageable;
+import com.projectlibre1.print.ViewPrintable;
+import com.projectlibre1.session.SessionFactory;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfWriter;
-import com.projectlibre1.print.ExtendedPageFormat;
-import com.projectlibre1.print.GraphPageable;
-import com.projectlibre1.print.ViewPrintable;
-import com.projectlibre1.job.Job;
-import com.projectlibre1.job.JobQueue;
-import com.projectlibre1.job.JobRunnable;
-import com.projectlibre1.session.SessionFactory;
 
 public class ImageExport {
 	public static void export(final GraphPageable pageable,Component parentComponent) throws IOException{
@@ -116,7 +115,7 @@ public class ImageExport {
 							if (p==0)
 								document.open();
 							else document.newPage();
-							Graphics2D g = writer.getDirectContent().createGraphics((float)width, (float)height);
+							Graphics2D g = new PdfGraphics2D(writer.getDirectContent(),(float)width, (float)height);
 							printable.print(g, p);
 							g.dispose();
 						}else{
