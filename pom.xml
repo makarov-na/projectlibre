@@ -84,6 +84,7 @@
       <artifactId>itextpdf</artifactId>
       <version>5.5.13.3</version>
     </dependency>
+
     <dependency>
       <groupId>org.beanshell</groupId>
       <artifactId>bsh</artifactId>
@@ -95,7 +96,16 @@
       <version>1.18.24</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.4.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
+
 
   <build>
       <resources>
