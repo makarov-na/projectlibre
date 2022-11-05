@@ -126,6 +126,14 @@ public class GanttView extends SplittedView implements BaseView, ScheduleEventLi
 
 
 
+
+	public GanttView(Project project, Synchronizer synchronizer) {
+		super(synchronizer);
+		this.project = project;
+		HelpUtil.addDocHelp(this,"Gantt_Chart");
+		setNeedVoidBar(true);
+	}
+
 	/**
 	 * @param project
 	 * @param manager
