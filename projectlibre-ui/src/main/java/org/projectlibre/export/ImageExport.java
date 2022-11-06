@@ -55,10 +55,11 @@
  *******************************************************************************/
 package org.projectlibre.export;
 
-import com.itextpdf.awt.PdfGraphics2D;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfWriter;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfGraphics2D;
+import com.lowagie.text.pdf.PdfWriter;
 import com.projectlibre1.job.Job;
 import com.projectlibre1.job.JobQueue;
 import com.projectlibre1.job.JobRunnable;
