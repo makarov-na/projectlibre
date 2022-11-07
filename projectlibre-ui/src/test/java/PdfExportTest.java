@@ -1,8 +1,8 @@
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfGraphics2D;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.*;
 import com.projectlibre1.exchange.LocalFileImporter;
 import com.projectlibre1.graphic.configuration.SpreadSheetFieldArray;
 import com.projectlibre1.offline_graphics.GanttSVGRenderer;
@@ -17,6 +17,7 @@ import com.projectlibre1.print.ExtendedPageFormat;
 import com.projectlibre1.print.GraphPageable;
 import com.projectlibre1.print.ViewPrintable;
 import com.projectlibre1.session.LoadOptions;
+import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -34,13 +35,13 @@ public class PdfExportTest {
     }
 
     private void exportToFile(GraphPageable pageable) throws DocumentException, PrinterException, IOException {
+
         final File file = new File("src/test/resources/russianPdfExport/out.pdf");
 
         Document document = new Document();;
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));;
         pageable.update();
         int pageCount = pageable.getNumberOfPages();
-
         if (pageCount > 0) {
             ViewPrintable printable = pageable.getSafePrintable();
             ExtendedPageFormat pageFormat = pageable.getSafePageFormat();
@@ -52,7 +53,25 @@ public class PdfExportTest {
                 if (p == 0)
                     document.open();
                 else document.newPage();
-                Graphics2D g = new PdfGraphics2D(writer.getDirectContent(), (float) width, (float) height);
+
+                PdfContentByte cb = writer.getDirectContent();
+                final String FONT = "src/test/resources/russianPdfExport/arial.ttf";
+                BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                Font awtFont = new Font("arial", Font.PLAIN, 22);
+                FontMapper fontMapper = new FontMapper() {
+                    @Override
+                    public BaseFont awtToPdf(Font font) {
+                        return bf;
+                    }
+
+                    @Override
+                    public Font pdfToAwt(BaseFont font, int size) {
+                        return awtFont;
+                    }
+                };
+                PdfGraphics2D g = new PdfGraphics2D(cb, (float) width, (float) height, fontMapper, false, false, 0);
+                g.setFont(awtFont);
+
                 printable.print(g, p);
                 g.dispose();
             }
