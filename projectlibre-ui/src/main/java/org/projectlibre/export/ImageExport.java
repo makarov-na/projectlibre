@@ -58,16 +58,18 @@ package org.projectlibre.export;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.FontMapper;
 import com.lowagie.text.pdf.PdfGraphics2D;
 import com.lowagie.text.pdf.PdfWriter;
 import com.projectlibre1.job.Job;
 import com.projectlibre1.job.JobQueue;
 import com.projectlibre1.job.JobRunnable;
-import com.projectlibre1.pm.graphic.spreadsheet.renderer.FontManager;
 import com.projectlibre1.print.ExtendedPageFormat;
 import com.projectlibre1.print.GraphPageable;
 import com.projectlibre1.print.ViewPrintable;
 import com.projectlibre1.session.SessionFactory;
+import org.apache.poi.util.IOUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -77,6 +79,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ImageExport {
@@ -95,19 +98,19 @@ public class ImageExport {
 					document = new Document();
 					writer = PdfWriter.getInstance(document, new FileOutputStream(file));
 				}else{
-					
+
 				}
 				pageable.update();
 				int pageCount = pageable.getNumberOfPages();
-				
-				
+
+
 				if (pageCount>0){
 					ViewPrintable printable=pageable.getSafePrintable();
 					ExtendedPageFormat pageFormat=pageable.getSafePageFormat();
 					double width=pageFormat.getWidth();
 					double height=pageFormat.getHeight();
 					float startIncrement=0.1f;
-					float endIncrement=0.0f;						
+					float endIncrement=0.0f;
 					float progressIncrement = (1.0f-startIncrement-endIncrement)/pageCount;
 					for (int p=0;p< pageCount;p++) {
 						setProgress(startIncrement+p*progressIncrement);
@@ -116,12 +119,12 @@ public class ImageExport {
 							if (p==0)
 								document.open();
 							else document.newPage();
-							Graphics2D g = new PdfGraphics2D(writer.getDirectContent(),(float)width, (float)height);
+							Graphics2D g = new PdfGraphics2D(writer.getDirectContent(), (float) width, (float) height, createFontMapper(), false, false, 0);
 							printable.print(g, p);
 							g.dispose();
 						}else{
 							BufferedImage bi = new BufferedImage((int)width, (int)height,BufferedImage.TYPE_INT_ARGB);
-							
+
 							Graphics2D g2 = (Graphics2D)bi.createGraphics();
 							g2.setBackground(Color.WHITE);
 							printable.print(g2, p);
@@ -136,6 +139,25 @@ public class ImageExport {
 				setProgress(1.0f);
 				return null;
 			}
+
+			private FontMapper createFontMapper() throws IOException {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream("fonts/FreeSans.ttf");
+				byte[] bytes = IOUtils.toByteArray(inputStream);
+				BaseFont bf = BaseFont.createFont("FreeSans.ttf",  BaseFont.IDENTITY_H, BaseFont.EMBEDDED, true, bytes, null);
+				FontMapper fontMapper = new FontMapper() {
+					@Override
+					public BaseFont awtToPdf(Font font) {
+						return bf;
+					}
+
+					@Override
+					public Font pdfToAwt(BaseFont font, int size) {
+						throw new RuntimeException("Not supported");
+					}
+				};
+				return fontMapper;
+			}
+
 		});
 		jobQueue.schedule(job);
 	}
